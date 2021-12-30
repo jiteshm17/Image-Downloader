@@ -1,5 +1,6 @@
 *.pyc
 images
+bin
 .idea
 *ghostdriver.log
 .vscode
