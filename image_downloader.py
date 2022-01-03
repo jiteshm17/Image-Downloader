@@ -72,6 +72,7 @@ def main(argv):
                                             photo = args.photo, date = args.date, 
                                             width = args.width, height = args.height)
     
+
     downloader.download_images(image_urls=crawled_urls, max_number=args.max_number,
                                dst_dir= os.path.join(args.output,args.keywords),
                                concurrency=args.num_threads, timeout=args.timeout,

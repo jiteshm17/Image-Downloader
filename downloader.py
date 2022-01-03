@@ -76,13 +76,14 @@ def download_images(image_urls, max_number,dst_dir, file_prefix="img", concurren
     remaining_count = max_number - success_count
     remaining_urls = all_image_urls.difference(processed_urls)
     
-    print('Processing remaining {} images'.format(remaining_count))
-    for image_url in remaining_urls:
-        file_name = file_prefix + "_" + "%04d" % count
-        download_image(image_url, dst_dir, file_name, timeout)
-        if success_count == max_number:
-            print('Downloaded {} images'.format(max_number))
-            break
-        count += 1
+    if remaining_count > 0:
+        print('Processing remaining {} images'.format(remaining_count))
+        for image_url in remaining_urls:
+            file_name = file_prefix + "_" + "%04d" % count
+            download_image(image_url, dst_dir, file_name, timeout)
+            if success_count == max_number:
+                print('Downloaded {} images'.format(max_number))
+                break
+            count += 1
 
 

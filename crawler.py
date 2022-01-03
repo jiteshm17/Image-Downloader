@@ -10,8 +10,8 @@ import time
 import sys
 import os
 import json
-import codecs
 import shutil
+from time import sleep
 
 from urllib.parse import unquote, quote
 from selenium import webdriver
@@ -412,17 +412,16 @@ def crawl_image_urls(keywords, engine="Bing", max_number=20,
     elif engine == "Bing":
         driver.set_window_size(1920, 1080)
         driver.get(query_url)
+        sleep(3)
         if safe_mode:
-            xpath = '/html/body/header/nav/span/span[1]/ul/li[2]/span/span'
-            xpath1 = '/html/body/header/nav/span/span[1]/ul/li[2]/div/div/a[1]'
+            base_xpath = '/html/body/header/nav/span/span[1]/ul/li[2]/span/span'
+            strict_xpath = '/html/body/header/nav/span/span[1]/ul/li[2]/div/div/a[1]'
             # elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'ftr_ss_hl')))
-            elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+            elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, base_xpath)))
             elem.click()
-            elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath1)))
+            elem = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, strict_xpath)))
             elem.click()
-            print('Before function')
-            time.sleep(4)
-            print('After function')
+            sleep(2)
         image_urls = bing_image_url_from_webpage(driver,max_number)
     else:   # Baidu
         # driver.set_window_size(10000, 7500)
@@ -432,8 +431,11 @@ def crawl_image_urls(keywords, engine="Bing", max_number=20,
 
     print('Crawled {} images'.format(len(image_urls)))
                                                    
-    if engine != "Baidu":
-        driver.close()
+    # if engine != "Baidu":
+    #     driver.close()
+
+    sleep(3)
+    driver.close()
 
     if max_number > len(image_urls):
         output_num = len(image_urls)
